@@ -10,6 +10,8 @@
 	var put_routes = require('./routes/put.js');
 	var delete_routes = require('./routes/delete.js');
 	
+	var utility = require('./services/utility');
+	
 	app.use(function(req, res, next){
 		req.first_middle_ware = 'STARTINGXX -';
 		if(req.url == '/restricted') {
@@ -25,7 +27,8 @@
 	app.use('/', delete_routes);
 	
 	app.use(function(req, res){
-		res.send(res.final_data + ' - ENDINGYY');
+		var current_env = utility.getCurrentEnv();
+		res.send(res.final_data + ' - ENDINGYY. Current environment is ' + current_env);
 	});
 	
 	app.listen(process.env.PORT || 8080, () => console.log('All is ok'))

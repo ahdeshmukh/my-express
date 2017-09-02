@@ -1,6 +1,10 @@
 (function(){
+	
+	var config = require('../configs/config');
+	
 	var utility = {};
 	utility.getCurrentDateTime = getCurrentDateTime;
+	utility.getCurrentEnv = getCurrentEnv;
 	
 	function getCurrentDateTime() {
 		var date = new Date();
@@ -23,6 +27,10 @@
 		day = (day < 10 ? "0" : "") + day;
 
 		return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
+	}
+	
+	function getCurrentEnv() {
+		return config.env;
 	}
 	
 	module.exports = utility;
