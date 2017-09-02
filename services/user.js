@@ -1,12 +1,16 @@
 (function(){
 	
+	var utility = require('../services/utility');
+	
 	var user_service = {};
 	user_service.getUserById = getUserById;
 	user_service.getUsers = getUsers;
 	
 	function getUserById(id) {
-		var users = this.getUsers();
-		return users;
+		var users = [];
+		users = this.getUsers();
+		return utility.returnResult(users);
+		//return users;
 	}
 	
 	function getUsers() {

@@ -26,12 +26,10 @@
 	app.use('/', put_routes);
 	app.use('/', delete_routes);
 	
-	app.use(function(req, res){
+	app.use(function(req, res){console.log(res.data);
 		var current_env = utility.getCurrentEnv();
 		//res.send(res.final_data + ' - ENDINGYY. Current environment is ' + current_env);
-		var result = {};
-		result.sucess = true;
-		result.data = res.data;
+		var result = res.data;
 		result.env = current_env;
 		result.host = req.headers.host;
 		

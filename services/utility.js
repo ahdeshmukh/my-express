@@ -3,6 +3,7 @@
 	var config = require('../configs/config');
 	
 	var utility = {};
+	utility.returnResult = returnResult;
 	utility.getCurrentDateTime = getCurrentDateTime;
 	utility.getCurrentEnv = getCurrentEnv;
 	
@@ -31,6 +32,27 @@
 	
 	function getCurrentEnv() {
 		return config.env;
+	}
+	
+	function returnResult(data, errors) {
+		/*var success = true;
+		if(res_status) {
+			success = true;
+		}*/
+		
+		var result = {};
+		
+		try {
+			result.success = true;
+			result.data = data;
+		} catch (error) { // catching Exceptions thrown by functions
+			result.success = false;
+			if (errors) {
+				result.errors = errors
+			}
+		} finally {
+			return result;
+		}
 	}
 	
 	module.exports = utility;
