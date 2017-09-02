@@ -9,6 +9,6 @@
 		next();
 	});
 
-	//export this router to use in our server.js if necessary
+	//export this router to use in our server.js
 	module.exports = router;
 })();

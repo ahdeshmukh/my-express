@@ -28,7 +28,14 @@
 	
 	app.use(function(req, res){
 		var current_env = utility.getCurrentEnv();
-		res.send(res.final_data + ' - ENDINGYY. Current environment is ' + current_env);
+		//res.send(res.final_data + ' - ENDINGYY. Current environment is ' + current_env);
+		var result = {};
+		result.sucess = true;
+		result.data = res.data;
+		result.env = current_env;
+		result.host = req.headers.host;
+		
+		res.json(result);
 	});
 	
 	app.listen(process.env.PORT || 8080, () => console.log('All is ok'))
