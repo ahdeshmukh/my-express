@@ -4,6 +4,7 @@
 	
 	var utility = {};
 	utility.returnResult = returnResult;
+	utility.returnError = returnError;
 	utility.getCurrentDateTime = getCurrentDateTime;
 	utility.getCurrentEnv = getCurrentEnv;
 	
@@ -34,25 +35,24 @@
 		return config.env;
 	}
 	
-	function returnResult(data, errors) {
-		/*var success = true;
-		if(res_status) {
-			success = true;
-		}*/
-		
+	function returnResult(data, req) {console.log(data);
 		var result = {};
-		
-		try {
-			result.success = true;
-			result.data = data;
-		} catch (error) { // catching Exceptions thrown by functions
-			result.success = false;
-			if (errors) {
-				result.errors = errors
-			}
-		} finally {
-			return result;
+		var success = true;
+		if(data === false || data === 'undefined') {
+			success = false;
+			data = null;
 		}
+		result.success = success;
+		result.data = data;
+		result.env = this.getCurrentEnv();
+		if(req) {
+			result.host = req.headers.host;
+		}
+		return result;
+	}
+
+	function returnError(error) {
+		return new Error(error);
 	}
 	
 	module.exports = utility;

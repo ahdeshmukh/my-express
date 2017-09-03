@@ -15,7 +15,8 @@
 	app.use(function(req, res, next){
 		req.first_middle_ware = 'STARTINGXX -';
 		if(req.url == '/restricted') {
-			res.send('Restricted route');
+			//res.send('Restricted route for ' + req.method);
+			res.json({'success':false, 'error':req.url + ' is a restricted route for ' + req.method})
 			return;
 		}
 		next();
@@ -25,21 +26,7 @@
 	app.use('/', post_routes);
 	app.use('/', put_routes);
 	app.use('/', delete_routes);
-	
-	app.use(function(req, res){
-		if(res.routeNotFound) {
-			res.json({'success':false, 'error':req.method + ' method not found for route ' + req._parsedOriginalUrl.path});
-			return;
-		}
-		var current_env = utility.getCurrentEnv();
-		//res.send(res.final_data + ' - ENDINGYY. Current environment is ' + current_env);
-		var result = res.data || {};
-		result.env = current_env;
-		result.host = req.headers.host;
-		
-		res.json(result);
-	});
-	
+
 	app.listen(process.env.PORT || 8080, () => console.log('All is ok'))
 	
 })();
