@@ -7,14 +7,14 @@
 	user_service.getUsers = getUsers;
 	
 	function getUserById(id) {
-		var users = [];
-		users = this.getUsers();
-		return utility.returnResult(users);
+		var user = {"id":1, "first_name":"John", "last_name":"Doe"};
+		return utility.returnResult(user);
 		//return users;
 	}
 	
 	function getUsers() {
-		return [{"id":1, "first_name":"John", "last_name":"Doe"}, {"id":2, "first_name":"Jane", "last_name":"Doe"}];
+		var users = [{"id":1, "first_name":"John", "last_name":"Doe"}, {"id":2, "first_name":"Jane", "last_name":"Doe"}];
+		return utility.returnResult(users);
 	}
 	
 	module.exports = user_service;

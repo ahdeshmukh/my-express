@@ -26,10 +26,14 @@
 	app.use('/', put_routes);
 	app.use('/', delete_routes);
 	
-	app.use(function(req, res){console.log(res.data);
+	app.use(function(req, res){
+		if(res.routeNotFound) {
+			res.json({'success':false, 'error':req.method + ' method not found for route ' + req._parsedOriginalUrl.path});
+			return;
+		}
 		var current_env = utility.getCurrentEnv();
 		//res.send(res.final_data + ' - ENDINGYY. Current environment is ' + current_env);
-		var result = res.data;
+		var result = res.data || {};
 		result.env = current_env;
 		result.host = req.headers.host;
 		

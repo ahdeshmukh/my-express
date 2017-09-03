@@ -15,14 +15,16 @@
 	});
 	
 	router.get('/user/:id', function(req, res, next){
-		var users = user_service.getUserById(req.params.id);
+		var user = user_service.getUserById(req.params.id);
+		res.data = user;
+		next();
+	});
+	
+	router.get('/users', function(req, res, next){
+		var users = user_service.getUsers();
 		res.data = users;
 		next();
 	});
-
-	/*router.get('/hello/:id', function(req, res){
-	   res.send('GET route on things- Hello from get.js. The id you specified is ' + req.params.id);
-	});*/
 
 	//export this router to use in our server.js
 	module.exports = router;
