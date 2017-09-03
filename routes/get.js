@@ -1,8 +1,8 @@
 (function(){
 	var express = require('express');
 	var router = express.Router();
-	var utility = require('../services/utility');
-	var user_service = require('../services/user');
+	var utility = require('../services/utility.service');
+	var user_service = require('../services/user.service');
 
 	router.get('/hello/:id?', function(req, res, next){
 		var return_text = req.first_middle_ware + ' GET route on things - Hello from get.js';

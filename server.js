@@ -10,7 +10,7 @@
 	var put_routes = require('./routes/put.js');
 	var delete_routes = require('./routes/delete.js');
 	
-	var utility = require('./services/utility');
+	var utility = require('./services/utility.service');
 	
 	app.use(function(req, res, next){
 		req.first_middle_ware = 'STARTINGXX -';

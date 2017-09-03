@@ -1,7 +1,7 @@
 (function(){
 	var express = require('express');
 	var router = express.Router();
-	var utility = require('../services/utility');
+	var utility = require('../services/utility.service');
 
 	router.delete('/hello', function(req, res, next){
 		var current_date_time = utility.getCurrentDateTime();

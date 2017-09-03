@@ -1,6 +1,6 @@
 (function(){
 	
-	var utility = require('../services/utility');
+	var utility = require('../services/utility.service');
 	
 	var user_service = {};
 	user_service.getUserById = getUserById;
