@@ -35,12 +35,22 @@
 		return config.env;
 	}
 	
-	function returnResult(data, req) {console.log(data);
+	function returnResult(data, req) {//console.log(data);
 		var result = {};
 		var success = true;
+		var errorMsg = '';
+		
 		if(data === false || data === 'undefined') {
 			success = false;
 			data = null;
+		}
+		if(data instanceof Error) {
+			success = false;
+			errorMsg = 'Some error has occured';
+			if(data.message) {
+				errorMsg = data.message;
+			}
+			data = null; // make the data null since an error has occured
 		}
 		result.success = success;
 		result.data = data;
@@ -48,11 +58,16 @@
 		if(req) {
 			result.host = req.headers.host;
 		}
+		if(errorMsg) {
+			result.error = errorMsg
+		}
 		return result;
 	}
 
-	function returnError(error) {
-		return new Error(error);
+	function returnError(err) {
+		var error = new Error();
+		error.message = err;
+		return error;
 	}
 	
 	module.exports = utility;

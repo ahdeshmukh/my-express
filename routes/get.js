@@ -15,7 +15,7 @@
 	});
 	
 	router.get('/user/:id', function(req, res, next){
-		var user = user_service.getUserById(req.params.id);console.log(user);
+		var user = user_service.getUserById(req.params.id);//console.log(user);
 		var result = utility.returnResult(user, req);
 		res.json(result);
 	});
