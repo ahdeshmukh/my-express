@@ -17,7 +17,7 @@
 	}
 	
 	function getUsers() {
-		//return utility.returnError('Kahan maar gaye sare users???');
+		//return utility.returnError('Oh no, there are no users to be found');
 		try {
 			users = [{"id":1, "first_name":"John", "last_name":"Doe"}, {"id":2, "first_name":"Jane", "last_name":"Doe"}];
 		} catch(err) {
