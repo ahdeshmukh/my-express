@@ -2,6 +2,10 @@
 	const express = require('express')
 	const app = express()
 
+	var config = require('./configs/config');
+	var mongo_connection = config.mongodb;
+	var mongo_connection_string = 'mongodb://' + mongo_connection.host + ':' + mongo_connection.port + '/' + mongo_connection.database;
+
 	// home page
 	app.use(express.static('public')) // use public folder for static file
 

@@ -1,4 +1,5 @@
 (function(){
+	const serializeError = require('serialize-error');
 	
 	var config = require('../configs/config');
 	
@@ -48,7 +49,7 @@
 			success = false;
 			errorMsg = 'Some error has occured';
 			if(data.message) {
-				errorMsg = data.message;
+				errorMsg = serializeError(data.message).stack;
 			}
 			data = null; // make the data null since an error has occured
 		}
@@ -66,7 +67,7 @@
 
 	function returnError(err) {
 		var error = new Error();
-		error.message = err;
+		error.message = err || 'Something went wrong';
 		return error;
 	}
 	

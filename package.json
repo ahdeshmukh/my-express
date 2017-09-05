@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/ahdeshmukh/my-express#readme",
   "dependencies": {
-    "express": "^4.15.4"
+    "express": "^4.15.4",
+    "mongoose": "^4.11.9",
+    "serialize-error": "^2.1.0"
   }
 }
