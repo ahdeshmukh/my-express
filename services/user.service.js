@@ -13,14 +13,24 @@
 	
 	function getUserById(id) {
 		//return utility.returnError('Where the hell is the user');
-		let user;
+		/*let user;
 		try {
 			user = {"id":1, "first_name":"John", "last_name":"Doe"};
 			//let con = my_mongoose.connect();;
 		} catch(err) {
 			return utility.returnError(err);
 		}
-		return user;
+		return user;*/
+		return new Promise(function(resolve, reject) {
+			User.getUserById(id, function(err, user) {
+				if(err) {
+					//users = utility.returnError(err);
+					reject(err);
+				} else {
+					resolve(user);
+				}
+			});
+		});
 	}
 	
 	function getUsers() {
@@ -34,17 +44,19 @@
 				}
 			});
 		});
-
 	}
 
 	function addUser(user) {
-		let result = false;
-		try {
-			//result = my_mongoose.insert('User', user);
-		} catch(err) {//console.log(err);
-			return utility.returnError(err);
-		}
-		return result;
+		return new Promise(function(resolve, reject) {
+			User.addUser(user, function(err, users) {
+				if(err) {
+					//users = utility.returnError(err);
+					reject(err);
+				} else {
+					resolve(users);
+				}
+			});
+		});
 	}
 	
 	module.exports = user_service;

@@ -15,6 +15,10 @@
         email: {
             type: String,
             required: true
+        },
+        active: {
+            type: Boolean,
+            default: true
         }
     }, { collection: 'users' });
 
@@ -22,6 +26,14 @@
 
     module.exports.getUsers = function(callback, limit) {
         User.find(callback).limit(limit);
+    };
+
+    module.exports.getUserById = function(id, callback) {
+        User.findById(id, callback);
+    };
+
+    module.exports.addUser = function(user, callback) {
+        User.create(user, callback);
     };
 
 })();

@@ -15,9 +15,10 @@
 	});
 	
 	router.get('/user/:id', function(req, res, next){
-		var user = user_service.getUserById(req.params.id);//console.log(user);
-		var result = utility.returnResult(user, req);
-		res.json(result);
+		user_service.getUserById(req.params.id).then(function(user){
+			var result = utility.returnResult(user, req);
+			res.json(result);
+		});
 	});
 	
 	router.get('/users', function(req, res, next){

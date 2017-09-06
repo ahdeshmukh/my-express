@@ -11,14 +11,11 @@
 	});
 
 	router.post('/add-user', function(req, res, next) {
-		//let result = utility.returnResult(req.body, req);
-		//res.json(result);
-		var user = {"first_name":req.body.first_name, "last_name":req.body.last_name, "email":req.body.email};
-		var add_user_result = user_service.addUser(user, function(data) {
-			console.log(data);
+		let user = {"first_name":req.body.first_name, "last_name":req.body.last_name, "email":req.body.email};
+		user_service.addUser(user).then(function(user) {
+			var result = utility.returnResult(user, req);
+			res.json(result);
 		});
-		console.log(add_user_result);
-		res.json(add_user_result);
 	});
 
 	//export this router to use in our server.js
