@@ -12,8 +12,7 @@
 		let user;
 		try {
 			user = {"id":1, "first_name":"John", "last_name":"Doe"};
-			let con = my_mongoose.connect();
-			console.log(con);
+			let con = my_mongoose.connect();;
 		} catch(err) {
 			return utility.returnError(err);
 		}

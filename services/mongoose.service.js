@@ -26,7 +26,7 @@
             useMongoClient: true,
         });
         promise.then(function(db){
-            console.log(db);
+            
         });
         //console.log(promise);
     }

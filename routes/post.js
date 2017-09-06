@@ -5,8 +5,13 @@
 
 	router.post('/hello', function(req, res, next){
 		var current_date_time = utility.getCurrentDateTime();
-		res.final_data = req.first_middle_ware + ' POST route on things - Hello from post.js requested on ' + current_date_time;
-		next();
+		let result = utility.returnResult(req.first_middle_ware + ' POST route on things - Hello from post.js requested on ' + current_date_time, req);
+		res.json(result);
+	});
+
+	router.post('/add-user', function(req, res, next) {
+		let result = utility.returnResult(req.params, req);
+		res.json(result);
 	});
 
 	//export this router to use in our server.js
