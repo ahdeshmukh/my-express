@@ -1,15 +1,27 @@
 (function() {
     
-    var config = require('../configs/config');
+    var mongoose = require('mongoose');
     
-    class User {
-        constructor() {
-            //var mongodb_config = config.mongodb;
-            this.host = config.mongodb.host;
-            this.port = config.mongodb.port;
-            this.database = config.mongodb.database;
+    // User schema
+    var userSchema = mongoose.Schema({
+        first_name: {
+            type: String,
+            required: true
+        },
+        last_name: {
+            type: String,
+            required: true
+        },
+        email: {
+            type: String,
+            required: true
         }
-    }
+    }, { collection: 'users' });
 
-    module.exports = User;
+    var User = module.exports = mongoose.model('User', userSchema);
+
+    module.exports.getUsers = function(callback, limit) {
+        User.find(callback).limit(limit);
+    };
+
 })();

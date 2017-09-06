@@ -1,13 +1,19 @@
 (function(){
-	const express = require('express')
-	const app = express()
+	const express = require('express');
+	const app = express();
+	const bodyParser = require('body-parser');
+	const mongoose = require('mongoose');
 
 	var config = require('./configs/config');
-	var mongo_connection = config.mongodb;
-	var mongo_connection_string = 'mongodb://' + mongo_connection.host + ':' + mongo_connection.port + '/' + mongo_connection.database;
+	var mongo_connection_string = config.mongodb.driver + '://' + config.mongodb.host + ':' + config.mongodb.port + '/' + config.mongodb.database;
 
+	mongoose.connect(mongo_connection_string, {useMongoClient: true});
+	var db = mongoose.connection;
+	
 	// home page
 	app.use(express.static('public')) // use public folder for static file
+
+	app.use(bodyParser.json())
 
 	var get_routes = require('./routes/get.js');
 	var post_routes = require('./routes/post.js');

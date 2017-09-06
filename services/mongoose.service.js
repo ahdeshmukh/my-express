@@ -1,6 +1,7 @@
 (function() {
     const mongoose = require('mongoose');
     const MyMongoose = require('../models/mongoose.model');
+    const User = require('../models/user.model');
     //MyMongoose = require('../models/mongoose.model').MyMongoose
     //var config = require('../configs/config');
 
@@ -8,6 +9,8 @@
     my_mongoose.getDbCredentials = getDbCredentials;
     my_mongoose.connect = connect;
     my_mongoose.find = find;
+    my_mongoose.insert = insert;
+    my_mongoose.selectModel = selectModel;
 
     function getDbCredentials() {
         let my_mongoose = new MyMongoose();
@@ -17,23 +20,40 @@
 
     function connect() {
         let credentials = this.getDbCredentials();
-        //mongoose.connect('mongodb://localhost/test');
-        //mongoose.connect(credentials.driver+'://'+credentials.host+':'+credentials.port+'/'+credentials.database);
-        //console.log('con => ' + credentials.database);
-        //var db = mongoose.connection;
-        //db.on('error', console.error.bind(console, 'connection error:'));
         var promise = mongoose.connect(credentials.driver+'://'+credentials.host+':'+credentials.port+'/'+credentials.database, {
             useMongoClient: true,
         });
         promise.then(function(db){
-            
+           //console.log(db); 
         });
-        //console.log(promise);
     }
 
 
     function find(model, filter, limit) {
 
+    }
+
+    function insert(model, data) {
+        let selected_model = this.selectModel(model);
+        selected_model.save((err, newly_created) => {
+            if(err) {
+                throw new Error(err);
+            }
+            return newly_created;
+        });
+    }
+
+    function selectModel(model) {
+        let selected_model = null;
+        switch(model) {
+            case 'User':
+                selected_model = User;
+                break;
+            default:
+                break;
+                
+        }
+        return selected_model;
     }
 
     module.exports = my_mongoose;

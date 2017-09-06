@@ -21,9 +21,10 @@
 	});
 	
 	router.get('/users', function(req, res, next){
-		var users = user_service.getUsers();
-		var result = utility.returnResult(users, req);
-		res.json(result);
+		user_service.getUsers().then(function(users){
+			var result = utility.returnResult(users, req);
+			res.json(result);
+		});
 	});
 
 	//export this router to use in our server.js
