@@ -4,8 +4,8 @@
 	const bodyParser = require('body-parser');
 	const mongoose = require('mongoose');
 
-	var config = require('./configs/config');
-	var mongo_connection_string = config.mongodb.driver + '://' + config.mongodb.host + ':' + config.mongodb.port + '/' + config.mongodb.database;
+	const mongoose_service = require('./services/mongoose.service');
+	const mongo_connection_string = mongoose_service.getConnectionString();
 
 	mongoose.connect(mongo_connection_string, {useMongoClient: true});
 	var db = mongoose.connection;

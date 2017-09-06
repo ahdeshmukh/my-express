@@ -14,6 +14,8 @@
             this.host = config.mongodb.host;
             this.port = config.mongodb.port;
             this.database = config.mongodb.database;
+            this.user = config.mongodb.user;
+            this.password = config.mongodb.password;
         }
     }
 

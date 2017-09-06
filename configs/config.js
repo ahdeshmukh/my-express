@@ -5,7 +5,9 @@
 			'driver': 'mongodb',
 			'host': 'localhost',
 			'port': '27017',
-			'database': 'mean_stack'
+			'database': 'mean_stack',
+			'user':'',
+			'password': ''
 		}
 	};
 	

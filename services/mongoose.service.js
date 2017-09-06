@@ -3,10 +3,11 @@
     const MyMongoose = require('../models/mongoose.model');
     const User = require('../models/user.model');
     //MyMongoose = require('../models/mongoose.model').MyMongoose
-    //var config = require('../configs/config');
+    const config = require('../configs/config');
 
     var my_mongoose = {};
     my_mongoose.getDbCredentials = getDbCredentials;
+    my_mongoose.getConnectionString = getConnectionString;
     my_mongoose.connect = connect;
     my_mongoose.find = find;
     my_mongoose.insert = insert;
@@ -16,6 +17,27 @@
         let my_mongoose = new MyMongoose();
         return my_mongoose;
         //return 'Mongoose connection';
+    }
+
+    function getConnectionString() {
+        let my_mongoose_credentials = this.getDbCredentials();
+        let connection_string = my_mongoose_credentials.driver+'://';
+        if(my_mongoose_credentials.user) {
+            connection_string += my_mongoose_credentials.user;
+        }
+        if(my_mongoose_credentials.password) {
+            connection_string += ':' + my_mongoose_credentials.password;
+        }
+        if(my_mongoose_credentials.user) {
+            connection_string += '@';
+        }
+        connection_string += my_mongoose_credentials.host;
+        if(my_mongoose_credentials.port) {
+            connection_string += ':' + my_mongoose_credentials.port;
+        }
+        connection_string += '/' + my_mongoose_credentials.database;
+        console.log(connection_string);
+        return connection_string;
     }
 
     function connect() {
