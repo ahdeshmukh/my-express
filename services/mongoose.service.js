@@ -36,7 +36,6 @@
             connection_string += ':' + my_mongoose_credentials.port;
         }
         connection_string += '/' + my_mongoose_credentials.database;
-        console.log(connection_string);
         return connection_string;
     }
 

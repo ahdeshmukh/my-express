@@ -8,6 +8,7 @@
 	utility.returnError = returnError;
 	utility.getCurrentDateTime = getCurrentDateTime;
 	utility.getCurrentEnv = getCurrentEnv;
+	utility.isDevEnv = isDevEnv;
 	
 	function getCurrentDateTime() {
 		var date = new Date();
@@ -37,9 +38,10 @@
 	}
 	
 	function returnResult(data, req) {//console.log(data);
-		var result = {};
-		var success = true;
-		var errorMsg = '';
+		let result = {};
+		let success = true;
+		let errorMsg = '';
+		let errorDetailedMsg = 'xyz';
 		
 		if(data === false || data === 'undefined') {
 			success = false;
@@ -47,9 +49,10 @@
 		}
 		if(data instanceof Error) {
 			success = false;
-			errorMsg = 'Some error has occured';
+			errorMsg = serializeError(data).stack;
 			if(data.message) {
-				errorMsg = serializeError(data.message).stack;
+				errorDetailedMsg = errorMsg;
+				errorMsg = data.message;
 			}
 			data = null; // make the data null since an error has occured
 		}
@@ -60,7 +63,10 @@
 			result.host = req.headers.host;
 		}
 		if(errorMsg) {
-			result.error = errorMsg
+			result.error = errorMsg;
+			if(this.isDevEnv()) {
+				result.errorDetail = errorDetailedMsg;
+			}
 		}
 		return result;
 	}
@@ -69,6 +75,11 @@
 		var error = new Error();
 		error.message = err || 'Something went wrong';
 		return error;
+	}
+
+	function isDevEnv() {
+		let env = this.getCurrentEnv();
+		return (env == 'Dev') ? true : false;
 	}
 	
 	module.exports = utility;

@@ -3,7 +3,6 @@
 	var Promise = require('promise');
 	
 	var utility = require('../services/utility.service');
-	//var my_mongoose = require('../services/mongoose.service');
 	var User = require('../models/user.model');
 	
 	var user_service = {};
@@ -12,19 +11,9 @@
 	user_service.addUser = addUser;
 	
 	function getUserById(id) {
-		//return utility.returnError('Where the hell is the user');
-		/*let user;
-		try {
-			user = {"id":1, "first_name":"John", "last_name":"Doe"};
-			//let con = my_mongoose.connect();;
-		} catch(err) {
-			return utility.returnError(err);
-		}
-		return user;*/
 		return new Promise(function(resolve, reject) {
 			User.getUserById(id, function(err, user) {
 				if(err) {
-					//users = utility.returnError(err);
 					reject(err);
 				} else {
 					resolve(user);
@@ -37,7 +26,6 @@
 		return new Promise(function(resolve, reject) {
 			User.getUsers(function(err, users) {
 				if(err) {
-					//users = utility.returnError(err);
 					reject(err);
 				} else {
 					resolve(users);
@@ -50,7 +38,6 @@
 		return new Promise(function(resolve, reject) {
 			User.addUser(user, function(err, users) {
 				if(err) {
-					//users = utility.returnError(err);
 					reject(err);
 				} else {
 					resolve(users);

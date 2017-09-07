@@ -1,6 +1,6 @@
 (function(){
 	var config = {
-		env: 'DEV123XYZ',
+		env: 'Dev',
 		/*mongodb: {
 			'driver': 'mongodb',
 			'host': 'localhost',
