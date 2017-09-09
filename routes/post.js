@@ -15,6 +15,10 @@
 		user_service.addUser(user).then(function(user) {
 			var result = utility.returnResult(user, req);
 			res.json(result);
+		}, function(err) {
+			var error = utility.returnError(err);
+			var result = utility.returnResult(error, req);
+			res.json(result);
 		});
 	});
 

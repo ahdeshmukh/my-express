@@ -49,6 +49,6 @@
 	app.use('/', put_routes);
 	app.use('/', delete_routes);
 
-	app.listen(process.env.PORT || 4000, () => console.log('All is ok'))
+	app.listen(process.env.PORT || 4000, () => console.log('All is ok'));
 	
 })();
