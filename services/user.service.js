@@ -9,6 +9,7 @@
 	user_service.getUserById = getUserById;
 	user_service.getUsers = getUsers;
 	user_service.addUser = addUser;
+	user_service.updateUser = updateUser;
 	
 	function getUserById(id) {
 		return new Promise(function(resolve, reject) {
@@ -41,6 +42,18 @@
 					reject(err);
 				} else {
 					resolve(users);
+				}
+			});
+		});
+	}
+
+	function updateUser(id, user) {
+		return new Promise(function(resolve, reject) {
+			User.updateUser({"_id": id}, user, function(err, user) {
+				if(err) {
+					reject(err);
+				} else {
+					resolve(user);
 				}
 			});
 		});

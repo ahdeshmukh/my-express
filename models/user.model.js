@@ -19,6 +19,10 @@
         active: {
             type: Boolean,
             default: true
+        },
+        tasks: {
+            type: Array,
+            default:[]
         }
     }, { collection: 'users' });
 
@@ -35,5 +39,9 @@
     module.exports.addUser = function(user, callback) {
         User.create(user, callback);
     };
+
+    module.exports.updateUser = function(query, user, callback) {
+        User.update(query, user, callback);
+    }
 
 })();
