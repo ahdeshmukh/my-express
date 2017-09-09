@@ -10,6 +10,7 @@
 	user_service.getUsers = getUsers;
 	user_service.addUser = addUser;
 	user_service.updateUser = updateUser;
+	user_service.addTask = addTask;
 	
 	function getUserById(id) {
 		return new Promise(function(resolve, reject) {
@@ -49,11 +50,25 @@
 
 	function updateUser(id, user) {
 		return new Promise(function(resolve, reject) {
-			User.updateUser({"_id": id}, user, function(err, user) {
+			User.updateUser({"_id": id}, user, function(err, data) {
 				if(err) {
 					reject(err);
 				} else {
-					resolve(user);
+					user.id = id;
+					data.user = user;
+					resolve(data);
+				}
+			});
+		});
+	}
+
+	function addTask(user_id, task) {
+		return new Promise(function(resolve, reject) {
+			User.addTask({"_id": user_id}, task, function(err, data) {
+				if(err) {
+					reject(err);
+				} else {
+					resolve(data);
 				}
 			});
 		});

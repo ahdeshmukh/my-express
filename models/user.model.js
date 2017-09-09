@@ -44,4 +44,12 @@
         User.update(query, user, callback);
     }
 
+    module.exports.addTask = function(query, task, callback) {
+        let task_obj = {};
+		task_obj.name = task;
+		task_obj.status = 'new';
+        task_obj.created_time = Date.now();
+        User.update(query, {$push: {"tasks": task_obj}}, callback);
+    }
+
 })();

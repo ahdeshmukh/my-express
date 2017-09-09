@@ -12,7 +12,7 @@
 
 	router.put('/update-user', function(req, res, next) {
 		let user = {"first_name":req.body.first_name, "last_name":req.body.last_name, "email":req.body.email};
-		let id = {"_id":req.body.id};
+		let id = req.body.id;
 		user_service.updateUser(id, user).then(function(user) {
 			var result = utility.returnResult(user, req);
 			res.json(result);
@@ -22,6 +22,7 @@
 			res.json(result);
 		});
 	});
+
 
 	//export this router to use in our server.js
 	module.exports = router;

@@ -22,6 +22,19 @@
 		});
 	});
 
+	router.post('/user-add-task', function(req, res, next) {
+		let task = req.body.name;
+		let user_id = req.body.user_id;
+		user_service.addTask(user_id, task).then(function(task_result) {
+			var result = utility.returnResult(task_result, req);
+			res.json(result);
+		}, function(err) {
+			var error = utility.returnError(err);
+			var result = utility.returnResult(error, req);
+			res.json(result);
+		});
+	});
+
 	//export this router to use in our server.js
 	module.exports = router;
 })();
