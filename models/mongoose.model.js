@@ -16,6 +16,8 @@
             this.database = config.mongodb.database;
             this.user = config.mongodb.user;
             this.password = config.mongodb.password;
+            this.replicaSet = (config.mongodb.replicaSet) ? config.mongodb.replicaSet : null;
+            this.additionalOptions = (config.mongodb.additionalOptions) ? config.mongodb.additionalOptions : null;
         }
     }
 

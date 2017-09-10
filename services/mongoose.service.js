@@ -20,6 +20,7 @@
     }
 
     function getConnectionString() {
+        //return 'mongodb://amit:dSDqwirHabCmEInU@mean-stack-1-shard-00-00-jigs7.mongodb.net:27017,mean-stack-1-shard-00-01-jigs7.mongodb.net:27017,mean-stack-1-shard-00-02-jigs7.mongodb.net:27017/mean_stack?ssl=true&replicaSet=mean-stack-1-shard-0&authSource=admin';
         let my_mongoose_credentials = this.getDbCredentials();
         let connection_string = my_mongoose_credentials.driver+'://';
         if(my_mongoose_credentials.user) {
@@ -31,11 +32,44 @@
         if(my_mongoose_credentials.user) {
             connection_string += '@';
         }
-        connection_string += my_mongoose_credentials.host;
-        if(my_mongoose_credentials.port) {
-            connection_string += ':' + my_mongoose_credentials.port;
+
+        if(my_mongoose_credentials.replicaSet) {
+            let nodes_count = 0;
+            my_mongoose_credentials.replicaSet.nodes.forEach(function(node){
+                if(nodes_count > 0) {
+                  connection_string += ',';  
+                }
+                connection_string += node.host;
+                if(node.port) {
+                    connection_string += ':'+node.port;
+                }
+                nodes_count++;
+            });
+        } else {
+            connection_string += my_mongoose_credentials.host;
+            if(my_mongoose_credentials.port) {
+                connection_string += ':' + my_mongoose_credentials.port;
+            }
         }
+        
         connection_string += '/' + my_mongoose_credentials.database;
+
+        if(my_mongoose_credentials.replicaSet) {
+            connection_string += '?replicaSet=' + my_mongoose_credentials.replicaSet.name;
+        }
+        
+        if(my_mongoose_credentials.additionalOptions) {
+            let option_count = 0;
+            my_mongoose_credentials.additionalOptions.forEach(function(option) {
+                if((option_count == 0) && (!my_mongoose_credentials.replicaSet)) {
+                    connection_string += '?';
+                } else {
+                    connection_string += '&';
+                }
+                connection_string += option.name + '=' + option.value;
+                option_count++;
+            });
+        }
         return connection_string;
     }
 
