@@ -1,4 +1,7 @@
 (function() {
+
+    const dateFormat = require('dateformat');
+    var now = new Date();
     
     var mongoose = require('mongoose');
     
@@ -53,7 +56,7 @@
         let task_obj = {};
 		task_obj.name = task;
 		task_obj.status = 'new';
-        task_obj.created_time = Date.now();
+        task_obj.created_time = dateFormat(now, "isoDateTime", true);//Date();
         User.update(query, {$push: {"tasks": task_obj}}, callback);
     }
 
