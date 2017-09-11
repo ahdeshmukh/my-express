@@ -13,9 +13,12 @@
 	user_service.addTask = addTask;
 	
 	function getUserById(id) {
-
+		let errMsg = [];
 		if(!id) {
-			return utility.getDefaultPromise('User ID is not provided');
+			errMsg.push('User ID is not provided');
+		}
+		if(errMsg.length) {
+			return utility.getDefaultRejectedPromise(errMsg);
 		}
 
 		return new Promise(function(resolve, reject) {
@@ -42,23 +45,35 @@
 	}
 
 	function addUser(user) {
+		let errMsg = [];
+		if(!user.first_name) {
+			errMsg.push('First name is required');
+		}
+		if(!user.last_name) {
+			errMsg.push('Last name is required');
+		}
+		if(!user.email) {
+			errMsg.push('Email is required');
+		}
+		if(errMsg.length) {
+			return utility.getDefaultRejectedPromise(errMsg);
+		}
+		
 		return new Promise(function(resolve, reject) {
-			User.addUser(user, function(err, users) {
+			User.addUser(user, function(err, new_user) {
 				if(err) {
 					reject(err);
 				} else {
-					resolve(users);
+					resolve(new_user);
 				}
 			});
 		});
 	}
 
 	function updateUser(id, user) {
-		//var id = null;
 		let errMsg = [];
 		if(!id) {
 			errMsg.push('User ID is not provided');
-			
 		}
 		if(!user.first_name) {
 			errMsg.push('First name is required');
@@ -72,6 +87,7 @@
 		if(errMsg.length) {
 			return utility.getDefaultRejectedPromise(errMsg);
 		}
+		
 		return new Promise(function(resolve, reject) {
 			User.updateUser({"_id": id}, user, function(err, data) {
 				if(err) {
