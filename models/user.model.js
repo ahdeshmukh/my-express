@@ -23,6 +23,11 @@
         tasks: {
             type: Array,
             default:[]
+        },
+        created_time: {
+            type: Date,
+            required: true,
+            default: Date.now()
         }
     }, { collection: 'users' });
 
