@@ -9,6 +9,7 @@
 	utility.getCurrentDateTime = getCurrentDateTime;
 	utility.getCurrentEnv = getCurrentEnv;
 	utility.isDevEnv = isDevEnv;
+	utility.getDefaultRejectedPromise = getDefaultRejectedPromise;
 	
 	function getCurrentDateTime() {
 		var date = new Date();
@@ -80,6 +81,19 @@
 	function isDevEnv() {
 		let env = this.getCurrentEnv();
 		return (env == 'Dev') ? true : false;
+	}
+
+	function getDefaultRejectedPromise(msg) {
+    	let defaultPromise = {};
+    	//defaultPromise.status = {};
+    	//defaultPromise.status.success = false;
+
+    	if(msg){
+    		defaultPromise.msg = msg;
+		}
+	  	return new Promise((resolve, reject) => {
+			reject(defaultPromise);
+		});
 	}
 	
 	module.exports = utility;

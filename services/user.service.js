@@ -13,6 +13,11 @@
 	user_service.addTask = addTask;
 	
 	function getUserById(id) {
+
+		if(!id) {
+			return utility.getDefaultPromise('User ID is not provided');
+		}
+
 		return new Promise(function(resolve, reject) {
 			User.getUserById(id, function(err, user) {
 				if(err) {
@@ -49,6 +54,24 @@
 	}
 
 	function updateUser(id, user) {
+		//var id = null;
+		let errMsg = [];
+		if(!id) {
+			errMsg.push('User ID is not provided');
+			
+		}
+		if(!user.first_name) {
+			errMsg.push('First name is required');
+		}
+		if(!user.last_name) {
+			errMsg.push('Last name is required');
+		}
+		if(!user.email) {
+			errMsg.push('Email is required');
+		}
+		if(errMsg.length) {
+			return utility.getDefaultRejectedPromise(errMsg);
+		}
 		return new Promise(function(resolve, reject) {
 			User.updateUser({"_id": id}, user, function(err, data) {
 				if(err) {
