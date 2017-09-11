@@ -61,4 +61,10 @@
         User.update(query, {$push: {"tasks": task_obj}}, callback);
     }
 
+    module.exports.getUserByEmail = function(email, callback) {
+        var query = {"email": email};
+        User.findOne(query, callback);
+        // User.findOne(query, 'email password', callback); // to only return email and password
+    }
+
 })();

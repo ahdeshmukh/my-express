@@ -3,6 +3,7 @@
 	var router = express.Router();
 	var utility = require('../services/utility.service');
 	var user_service = require('../services/user.service');
+	var auth_service = require('../services/auth.service');
 
 	router.post('/hello', function(req, res, next){
 		var current_date_time = utility.getCurrentDateTime();
@@ -11,13 +12,6 @@
 	});
 
 	router.post('/add-user', function(req, res, next) {
-		/*let user = {
-			"first_name":req.body.first_name, 
-			"last_name":req.body.last_name, 
-			"email":req.body.email,
-			"password":bcrypt.hashSync()
-		};*/
-
 		let user_data = req.body;
 		user_service.addUser(user_data).then(function(user) {
 			var result = utility.returnResult(user, req);
@@ -34,6 +28,18 @@
 		let user_id = req.body.user_id;
 		user_service.addTask(user_id, task).then(function(task_result) {
 			var result = utility.returnResult(task_result, req);
+			res.json(result);
+		}, function(err) {
+			var error = utility.returnError(err);
+			var result = utility.returnResult(error, req);
+			res.json(result);
+		});
+	});
+
+	router.post('/login', function(req, res, next) {
+		let credentials = req.body;
+		auth_service.login(credentials).then(function(auth_result) {
+			var result = utility.returnResult(auth_result, req);
 			res.json(result);
 		}, function(err) {
 			var error = utility.returnError(err);
