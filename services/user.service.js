@@ -1,6 +1,7 @@
 (function(){
 
 	var Promise = require('promise');
+	var bcrypt = require('bcrypt-nodejs');
 	
 	var utility = require('../services/utility.service');
 	var User = require('../models/user.model');
@@ -45,6 +46,7 @@
 	}
 
 	function addUser(user) {
+
 		let errMsg = [];
 		if(!user.first_name) {
 			errMsg.push('First name is required');
@@ -55,9 +57,15 @@
 		if(!user.email) {
 			errMsg.push('Email is required');
 		}
+		if(!user.password) {
+			errMsg.push('Password is required');
+		}
 		if(errMsg.length) {
 			return utility.getDefaultRejectedPromise(errMsg);
 		}
+
+		// hash the password
+		user.password = bcrypt.hashSync(user.password);
 		
 		return new Promise(function(resolve, reject) {
 			User.addUser(user, function(err, new_user) {

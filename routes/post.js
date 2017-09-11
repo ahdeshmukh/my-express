@@ -11,8 +11,15 @@
 	});
 
 	router.post('/add-user', function(req, res, next) {
-		let user = {"first_name":req.body.first_name, "last_name":req.body.last_name, "email":req.body.email};
-		user_service.addUser(user).then(function(user) {
+		/*let user = {
+			"first_name":req.body.first_name, 
+			"last_name":req.body.last_name, 
+			"email":req.body.email,
+			"password":bcrypt.hashSync()
+		};*/
+
+		let user_data = req.body;
+		user_service.addUser(user_data).then(function(user) {
 			var result = utility.returnResult(user, req);
 			res.json(result);
 		}, function(err) {
