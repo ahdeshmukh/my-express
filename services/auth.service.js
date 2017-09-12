@@ -35,9 +35,7 @@
                             reject("Invalid email or password");
                         }
                     }
-
-                    //reject("Invalidxx email or password");
-				}
+                }
 			});
 		});
 	}

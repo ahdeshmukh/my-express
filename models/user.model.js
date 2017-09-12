@@ -62,9 +62,14 @@
     }
 
     module.exports.getUserByEmail = function(email, callback) {
-        var query = {"email": email};
+        let query = {"email": email};
         User.findOne(query, callback);
         // User.findOne(query, 'email password', callback); // to only return email and password
+    }
+
+    module.exports.updateTask = function(user_id, task, callback) {
+        let query = {"_id": user_id, "tasks.name":task.name, "tasks.created_time":task.created_time};
+        User.update(query, {$set: {"tasks.$.status": task.status}}, callback);
     }
 
 })();
