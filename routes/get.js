@@ -36,6 +36,17 @@
 		});
 	});
 
+	router.get('/get-users-tasks-count-by-status/:id', function(req, res, next){
+		user_service.getUsersTasksCountByStatus(req.params.id).then(function(count_tasks_by_status){
+			var result = utility.returnResult(count_tasks_by_status, req);
+			res.json(result);
+		}, function(err) {
+			var error = utility.returnError(err);
+			var result = utility.returnResult(error, req);
+			res.json(result);
+		});
+	});
+
 	//export this router to use in our server.js
 	module.exports = router;
 	

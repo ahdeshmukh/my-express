@@ -67,9 +67,14 @@
         // User.findOne(query, 'email password', callback); // to only return email and password
     }
 
-    module.exports.updateTask = function(user_id, task, callback) {
-        let query = {"_id": user_id, "tasks.name":task.name, "tasks.created_time":task.created_time};
-        User.update(query, {$set: {"tasks.$.status": task.status}}, callback);
+    module.exports.getUsersTasksCountByStatus = function(user_id, callback) {
+        let user_id_obj = mongoose.Types.ObjectId(user_id);
+        User.aggregate([
+            {$match: {_id: user_id_obj, active: true}},
+            {$unwind: "$tasks"},
+            {$group: {_id: "$tasks.status", num_tasks: {$sum: 1}}},
+            {$project:{_id: 0, task_name:"$_id", num_tasks: 1}}
+        ], callback);
     }
 
 })();

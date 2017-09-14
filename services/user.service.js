@@ -13,6 +13,7 @@
 	user_service.updateUser = updateUser;
 	user_service.addTask = addTask;
 	user_service.updateUserTask = updateUserTask;
+	user_service.getUsersTasksCountByStatus = getUsersTasksCountByStatus;
 	
 	function getUserById(id) {
 		let errMsg = [];
@@ -147,6 +148,25 @@
 		}
 		return new Promise(function(resolve, reject) {
 			User.updateTask(user_id, task, function(err, data) {
+				if(err) {
+					reject(err);
+				} else {
+					resolve(data);
+				}
+			});
+		});
+	}
+
+	function getUsersTasksCountByStatus(user_id) {
+		let errMsg = [];
+		if(!user_id) {
+			errMsg.push('User ID is not provided');
+		}
+		if(errMsg.length) {
+			return utility.getDefaultRejectedPromise(errMsg);
+		}
+		return new Promise(function(resolve, reject) {
+			User.getUsersTasksCountByStatus(user_id, function(err, data) {
 				if(err) {
 					reject(err);
 				} else {
