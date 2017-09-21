@@ -30,6 +30,7 @@
                       reject("Invalid email or password");  
                     } else {
                         if(bcrypt.compareSync(credentials.password, user.password)) {
+							user.password = null; // do not return password to front end
                             resolve(user);
                         } else {
                             reject("Invalid email or password");
