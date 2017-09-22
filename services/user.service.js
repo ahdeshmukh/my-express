@@ -29,6 +29,7 @@
 				if(err) {
 					reject(err);
 				} else {
+					user.password = null;
 					resolve(user);
 				}
 			});
@@ -112,6 +113,16 @@
 	}
 
 	function addTask(user_id, task) {
+		let errMsg = [];
+		if(!user_id) {
+			errMsg.push('User ID is not provided');
+		}
+		if(!task) {
+			errMsg.push('Task is not provided');
+		}
+		if(errMsg.length) {
+			return utility.getDefaultRejectedPromise(errMsg);
+		}
 		return new Promise(function(resolve, reject) {
 			User.addTask({"_id": user_id}, task, function(err, data) {
 				if(err) {
