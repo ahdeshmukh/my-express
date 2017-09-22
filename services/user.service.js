@@ -138,7 +138,7 @@
 			errMsg.push('Task cannot be identified as Task created time is not provided');
 		}
 		if(!task.status) {
-			errMsg.push('Cannot update task as new status is not provided');
+			errMsg.push('Cannot update task as status is not provided');
 		}
 		if((task.status != 'in_progress') || (task.status != 'complete')) {
 			errMsg.push('Invalid status. The status of the task can only be "in Progress" or "Complete"');

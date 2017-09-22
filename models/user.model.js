@@ -77,4 +77,11 @@
         ], callback);
     }
 
+    module.exports.updateTask = function(user_id, task, callback) {
+        let user_id_obj = mongoose.Types.ObjectId(user_id);
+        let query = {_id:user_id_obj, "tasks.name":task.name, "tasks.created_time":task.created_time};
+        let update = {$set:{"tasks.$.status":task.status}};
+        User.update(query, update, callback)
+    }
+
 })();
