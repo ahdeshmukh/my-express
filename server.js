@@ -3,6 +3,7 @@
 	const app = express();
 	const bodyParser = require('body-parser');
 	const mongoose = require('mongoose');
+	const mongoSanitize = require('express-mongo-sanitize');
 
 	const utility_service = require('./services/utility.service');
 
@@ -22,6 +23,7 @@
 	app.use(express.static('public')) // use public folder for static file
 
 	app.use(bodyParser.json())
+	app.use(mongoSanitize()); // sanitize user input to prevent query selector injection attacks. https://blog.websecurify.com/2014/08/hacking-nodejs-and-mongodb.html
 
 	var get_routes = require('./routes/get.js');
 	var post_routes = require('./routes/post.js');
