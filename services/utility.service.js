@@ -66,7 +66,7 @@
 		if(errorMsg) {
 			result.error = errorMsg;
 			if(this.isDevEnv()) {
-				result.errorDetail = errorDetailedMsg;
+				result.error.detail = errorDetailedMsg;
 			}
 		}
 		return result;
