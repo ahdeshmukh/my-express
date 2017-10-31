@@ -4,6 +4,7 @@
 	const bodyParser = require('body-parser');
 	const mongoose = require('mongoose');
 	const mongoSanitize = require('express-mongo-sanitize');
+	const cors = require('cors');
 
 	const utility_service = require('./services/utility.service');
 
@@ -24,6 +25,8 @@
 
 	app.use(bodyParser.json())
 	app.use(mongoSanitize()); // sanitize user input to prevent query selector injection attacks. https://blog.websecurify.com/2014/08/hacking-nodejs-and-mongodb.html
+	
+	app.use(cors()); // enable cross site resource sharing
 
 	var get_routes = require('./routes/get.js');
 	var post_routes = require('./routes/post.js');
