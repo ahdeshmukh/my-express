@@ -22,7 +22,7 @@
 		}
 
 		return new Promise(function(resolve, reject) {
-			User.getUserByEmail(credentials.email, function(err, user) {
+			User.getUserByEmail(credentials.email.toLowerCase(), function(err, user) {
 				if(err) {
 					reject(err);
 				} else {

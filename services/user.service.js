@@ -70,6 +70,9 @@
 		// hash the password
 		user.password = bcrypt.hashSync(user.password);
 		
+		// make the email lower case
+		user.email = user.email.toLowerCase();
+		
 		return new Promise(function(resolve, reject) {
 			User.addUser(user, function(err, new_user) {
 				if(err) {
@@ -98,6 +101,9 @@
 		if(errMsg.length) {
 			return utility.getDefaultRejectedPromise(errMsg);
 		}
+		
+		// make the email lower case
+		user.email = user.email.toLowerCase();
 		
 		return new Promise(function(resolve, reject) {
 			User.updateUser({"_id": id}, user, function(err, data) {
