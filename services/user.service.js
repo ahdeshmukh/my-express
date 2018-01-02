@@ -157,8 +157,8 @@
 		if(!task.status) {
 			errMsg.push('Cannot update task as status is not provided');
 		}
-		if((task.status != 'in_progress') || (task.status != 'complete')) {
-			errMsg.push('Invalid status. The status of the task can only be "in Progress" or "Complete"');
+		if((task.status !== 'in_progress') && (task.status !== 'complete')) {
+			errMsg.push('Invalid status. The status of the task can only be "In Progress" or "Complete"');
 		}
 		if(errMsg.length) {
 			return utility.getDefaultRejectedPromise(errMsg);
