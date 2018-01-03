@@ -14,6 +14,8 @@
 	user_service.addTask = addTask;
 	user_service.updateUserTask = updateUserTask;
 	user_service.getUsersTasksCountByStatus = getUsersTasksCountByStatus;
+	user_service.getUsersTasksList = getUsersTasksList;
+	user_service.getUsersTasksListByStatus = getUsersTasksListByStatus;
 	
 	function getUserById(id) {
 		let errMsg = [];
@@ -184,6 +186,47 @@
 		}
 		return new Promise(function(resolve, reject) {
 			User.getUsersTasksCountByStatus(user_id, function(err, data) {
+				if(err) {
+					reject(err);
+				} else {
+					resolve(data);
+				}
+			});
+		});
+	}
+	
+	function getUsersTasksList(user_id) {
+		let errMsg = [];
+		if(!user_id) {
+			errMsg.push('User ID is not provided');
+		}
+		if(errMsg.length) {
+			return utility.getDefaultRejectedPromise(errMsg);
+		}
+		return new Promise(function(resolve, reject) {
+			User.getUsersTasksList(user_id, function(err, data) {
+				if(err) {
+					reject(err);
+				} else {
+					resolve(data);
+				}
+			});
+		});
+	}
+	
+	function getUsersTasksListByStatus(user_id, taskStatus) {
+		let errMsg = [];
+		if(!user_id) {
+			errMsg.push('User ID is not provided');
+		}
+		if(taskStatus) {
+			let taskStatus = 'new';
+		}
+		if(errMsg.length) {
+			return utility.getDefaultRejectedPromise(errMsg);
+		}
+		return new Promise(function(resolve, reject) {
+			User.getUsersTasksListByStatus(user_id, taskStatus, function(err, data) {
 				if(err) {
 					reject(err);
 				} else {

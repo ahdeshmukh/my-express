@@ -46,6 +46,28 @@
 			res.json(result);
 		});
 	});
+	
+	router.get('/get-users-tasks-list/:uid', function(req, res, next){
+		user_service.getUsersTasksList(req.params.uid).then(function(tasks){
+			var result = utility.returnResult(tasks, req);
+			res.json(result);
+		}, function(err) {
+			var error = utility.returnError(err);
+			var result = utility.returnResult(error, req);
+			res.json(result);
+		});
+	});
+	
+	router.get('/get-users-tasks-list-by-status/:uid/:taskStatus', function(req, res, next){
+		user_service.getUsersTasksListByStatus(req.params.uid, req.params.taskStatus).then(function(tasks){
+			var result = utility.returnResult(tasks, req);
+			res.json(result);
+		}, function(err) {
+			var error = utility.returnError(err);
+			var result = utility.returnResult(error, req);
+			res.json(result);
+		});
+	});
 
 	//export this router to use in our server.js
 	module.exports = router;

@@ -116,5 +116,31 @@
         }
         
     }
+	
+	module.exports.getUsersTasksList = function(user_id, callback) {
+		let user_id_obj = mongoose.Types.ObjectId(user_id);
+        let query = {"_id": user_id_obj};
+        try {
+            User.find(query,{"tasks": 1},callback);
+        } catch(err) {
+            throw err;
+        }
+    }
+	
+	module.exports.getUsersTasksListByStatus = function(user_id, taskStatus, callback) {
+		let user_id_obj = mongoose.Types.ObjectId(user_id);
+        let query = {"tasks.status":'new'};
+        try {
+            User.find(query, callback);
+			User.aggregate([
+                {$match: {_id: user_id_obj, active: true}},
+                {$unwind: "$tasks"},
+                {$match: {"tasks.status": 'new'}},
+                {$project:{tasks: 1}}
+            ], callback);
+        } catch(err) {
+            throw err;
+        }
+    }
 
 })();
