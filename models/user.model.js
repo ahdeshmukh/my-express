@@ -119,7 +119,7 @@
 	
 	module.exports.getUsersTasksList = function(user_id, callback) {
 		let user_id_obj = mongoose.Types.ObjectId(user_id);
-        let query = {"_id": user_id_obj};
+        let query = {"_id": user_id_obj, "active": true};
         try {
             User.find(query,{"tasks": 1},callback);
         } catch(err) {
@@ -131,16 +131,16 @@
 		let user_id_obj = mongoose.Types.ObjectId(user_id);
         let query = {"tasks.status":'new'};
         try {
-            User.find(query, callback);
-			User.aggregate([
-                {$match: {_id: user_id_obj, active: true}},
+            User.aggregate([
+                {$match: {"_id": user_id_obj, "active": true}},
                 {$unwind: "$tasks"},
-                {$match: {"tasks.status": 'new'}},
-                {$project:{tasks: 1}}
+                {$match: {"tasks.status": taskStatus}},
+                {$project:{"tasks": 1}},
+				{$group: {"_id": "$_id", tasks:{$push:{"name":"$tasks.name", "created_time":"$tasks.created_time"}}}},
             ], callback);
         } catch(err) {
             throw err;
-        }
+        }//
     }
 
 })();
