@@ -136,7 +136,7 @@
                 {$unwind: "$tasks"},
                 {$match: {"tasks.status": taskStatus}},
                 {$project:{"tasks": 1}},
-				{$group: {"_id": "$_id", tasks:{$push:{"name":"$tasks.name", "created_time":"$tasks.created_time"}}}},
+				{$group: {"_id": "$_id", "tasks":{$push:{"name":"$tasks.name", "created_time":"$tasks.created_time", "status":"$tasks.status"}}}},
             ], callback);
         } catch(err) {
             throw err;
