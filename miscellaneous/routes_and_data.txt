@@ -24,5 +24,8 @@ update user task
 PUT http://localhost:4000/user-update-task
 {"user_id":59b6f7e83dd0d31fe8050b03, "task":{"name":"Task name", "created_time":1506112373419, "status":"in_progress"}}
 
-get users tasks count - group by status
+get user's tasks count - group by status
 GET http://localhost:4000/get-users-tasks-count-by-status/59b6f7e83dd0d31fe8050b03
+
+get user's tasks based on status (return in_progress task for user with id 5a4ab83221b47745b45ddd06. other values are new and complete)
+https://express-deshmukh-ah.herokuapp.com/get-users-tasks-list-by-status/5a4ab83221b47745b45ddd06/in_progress
