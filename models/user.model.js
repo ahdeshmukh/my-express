@@ -129,14 +129,13 @@
 	
 	module.exports.getUsersTasksListByStatus = function(user_id, taskStatus, callback) {
 		let user_id_obj = mongoose.Types.ObjectId(user_id);
-        let query = {"tasks.status":'new'};
         try {
             User.aggregate([
                 {$match: {"_id": user_id_obj, "active": true}},
                 {$unwind: "$tasks"},
                 {$match: {"tasks.status": taskStatus}},
-                {$project:{"tasks": 1}},
 				{$group: {"_id": "$_id", "tasks":{$push:{"name":"$tasks.name", "created_time":"$tasks.created_time", "status":"$tasks.status"}}}},
+				{$project:{"tasks": 1, "_id": 0}}
             ], callback);
         } catch(err) {
             throw err;

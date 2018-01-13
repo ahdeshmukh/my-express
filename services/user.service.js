@@ -219,18 +219,22 @@
 		if(!user_id) {
 			errMsg.push('User ID is not provided');
 		}
-		if(taskStatus) {
+		if(!taskStatus) {
 			let taskStatus = 'new';
 		}
 		if(errMsg.length) {
 			return utility.getDefaultRejectedPromise(errMsg);
 		}
 		return new Promise(function(resolve, reject) {
-			User.getUsersTasksListByStatus(user_id, taskStatus, function(err, data) {
+			User.getUsersTasksListByStatus(user_id, taskStatus, function(err, data) {console.log(data);
 				if(err) {
 					reject(err);
 				} else {
-					resolve(data);
+					let tasks = [];
+					if(data.length > 0) {
+						tasks = (data[0].tasks) ? data[0].tasks : [];
+					}
+					resolve(tasks);
 				}
 			});
 		});
