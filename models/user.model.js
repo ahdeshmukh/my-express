@@ -121,7 +121,7 @@
 		let user_id_obj = mongoose.Types.ObjectId(user_id);
         let query = {"_id": user_id_obj, "active": true};
         try {
-            User.find(query,{"tasks": 1},callback);
+            User.find(query,{"tasks": 1},callback).limit(1);
         } catch(err) {
             throw err;
         }
@@ -132,7 +132,7 @@
         try {
             User.aggregate([
                 {$match: {"_id": user_id_obj, "active": true}},
-                {$unwind: "$tasks"},
+				{$unwind: "$tasks"},
                 {$match: {"tasks.status": taskStatus}},
 				{$group: {"_id": "$_id", "tasks":{$push:{"name":"$tasks.name", "created_time":"$tasks.created_time", "status":"$tasks.status"}}}},
 				{$project:{"tasks": 1, "_id": 0}}

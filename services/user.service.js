@@ -226,7 +226,7 @@
 			return utility.getDefaultRejectedPromise(errMsg);
 		}
 		return new Promise(function(resolve, reject) {
-			User.getUsersTasksListByStatus(user_id, taskStatus, function(err, data) {console.log(data);
+			User.getUsersTasksListByStatus(user_id, taskStatus, function(err, data) {
 				if(err) {
 					reject(err);
 				} else {
