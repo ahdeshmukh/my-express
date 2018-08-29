@@ -9,7 +9,8 @@
 	utility.getCurrentDateTime = getCurrentDateTime;
 	utility.getCurrentEnv = getCurrentEnv;
 	utility.isDevEnv = isDevEnv;
-	utility.getDefaultRejectedPromise = getDefaultRejectedPromise;
+	utility.getDefaultRejectedPromise = getDefaultRejectedPromise
+	utility.returnErrorResponse = returnErrorResponse;
 	
 	function getCurrentDateTime() {
 		var date = new Date();
@@ -94,6 +95,12 @@
 	  	return new Promise((resolve, reject) => {
 			reject(defaultPromise);
 		});
+	}
+
+	function returnErrorResponse(err, req=null) {
+		let error = this.returnError(err);
+		let result = this.returnResult(error, req);
+		return result;
 	}
 	
 	module.exports = utility;

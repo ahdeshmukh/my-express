@@ -39,6 +39,7 @@
 
     module.exports.getUsers = function(callback, limit) {
         try {
+            //throw new Error('Throwing an error');
             User.find({},{"password": 0},callback).limit(limit); // not returning the password
         } catch(err) {
             throw err;
@@ -47,6 +48,7 @@
 
     module.exports.getUserById = function(id, callback) {
         try {
+            //throw new Error('ddfsfds');
             User.findById(id, callback);
         } catch(err) {
             throw err;
@@ -127,19 +129,24 @@
         }
     }
 	
-	module.exports.getUsersTasksListByStatus = function(user_id, taskStatus, callback) {
-		let user_id_obj = mongoose.Types.ObjectId(user_id);
+	module.exports.getUsersTasksListByStatus = function(user_id, taskStatus=null, callback) {
+        let user_id_obj = mongoose.Types.ObjectId(user_id);
+        let taskQuery = [{$match: {"_id": user_id_obj, "active": true}}];
+        if(taskStatus) {
+            taskQuery.push(
+                {$unwind: "$tasks"}, 
+                {$match: {"tasks.status": taskStatus}}, 
+                {$group: {"_id": "$_id", "tasks":{$push:{"name":"$tasks.name", "created_time":"$tasks.created_time", "status":"$tasks.status"}}}},
+                {$project:{"tasks": 1, "_id": 0}}
+            )
+        } else {
+            taskQuery.push({$project:{"tasks": 1, "_id": 0}});
+        }
         try {
-            User.aggregate([
-                {$match: {"_id": user_id_obj, "active": true}},
-				{$unwind: "$tasks"},
-                {$match: {"tasks.status": taskStatus}},
-				{$group: {"_id": "$_id", "tasks":{$push:{"name":"$tasks.name", "created_time":"$tasks.created_time", "status":"$tasks.status"}}}},
-				{$project:{"tasks": 1, "_id": 0}}
-            ], callback);
+            User.aggregate(taskQuery, callback);
         } catch(err) {
             throw err;
-        }//
+        }
     }
 
 })();

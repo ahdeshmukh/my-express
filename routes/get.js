@@ -1,8 +1,8 @@
 (function(){
-	var express = require('express');
-	var router = express.Router();
-	var utility = require('../services/utility.service');
-	var user_service = require('../services/user.service');
+	const express = require('express');
+	const router = express.Router();
+	const utility = require('../services/utility.service');
+	const userService = require('../services/user.service');
 
 	router.get('/hello/:id?', function(req, res, next){
 		var return_text = req.first_middle_ware + ' GET route on things - Hello from get.js';
@@ -14,30 +14,34 @@
 	   next();
 	});
 	
-	router.get('/user/:id', function(req, res, next){
-		user_service.getUserById(req.params.id).then(function(user){
-			var result = utility.returnResult(user, req);
+	router.get('/user/:id', function(req, res){
+		userService.getUserById(req.params.id).then(function(user){
+			let result = utility.returnResult(user, req);
 			res.json(result);
 		}, function(err) {
-			var error = utility.returnError(err);
-			var result = utility.returnResult(error, req);
+			/*let error = utility.returnError(err);
+			let result = utility.returnResult(error, req);
+			res.json(result);*/
+			let result = utility.returnErrorResponse(err, req);
 			res.json(result);
 		});
 	});
 	
 	router.get('/users', function(req, res, next){
-		user_service.getUsers().then(function(users){
+		userService.getUsers().then(function(users){
 			var result = utility.returnResult(users, req);
 			res.json(result);
 		}, function(err) {
-			var error = utility.returnError(err);
+			/*var error = utility.returnError(err);
 			var result = utility.returnResult(error, req);
+			res.json(result);*/
+			let result = utility.returnErrorResponse(err, req);
 			res.json(result);
 		});
 	});
 
 	router.get('/get-users-tasks-count-by-status/:id', function(req, res, next){
-		user_service.getUsersTasksCountByStatus(req.params.id).then(function(count_tasks_by_status){
+		userService.getUsersTasksCountByStatus(req.params.id).then(function(count_tasks_by_status){
 			var result = utility.returnResult(count_tasks_by_status, req);
 			res.json(result);
 		}, function(err) {
@@ -48,7 +52,7 @@
 	});
 	
 	router.get('/get-users-tasks-list/:uid', function(req, res, next){
-		user_service.getUsersTasksList(req.params.uid).then(function(tasks){
+		userService.getUsersTasksList(req.params.uid).then(function(tasks){
 			var result = utility.returnResult(tasks, req);
 			res.json(result);
 		}, function(err) {
@@ -58,8 +62,8 @@
 		});
 	});
 	
-	router.get('/get-users-tasks-list-by-status/:uid/:taskStatus', function(req, res, next){
-		user_service.getUsersTasksListByStatus(req.params.uid, req.params.taskStatus).then(function(tasks){
+	router.get('/get-users-tasks-list-by-status/:uid/:taskStatus?', function(req, res, next){
+		userService.getUsersTasksListByStatus(req.params.uid, req.params.taskStatus).then(function(tasks){
 			var result = utility.returnResult(tasks, req);
 			res.json(result);
 		}, function(err) {

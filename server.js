@@ -12,7 +12,7 @@
 	const mongo_connection_string = mongoose_service.getConnectionString();
 
 	mongoose.connect(mongo_connection_string, {useMongoClient: true, reconnectTries: 3});
-	var db = mongoose.connection;
+	//var db = mongoose.connection;
 	var mongoose_connection_success = true;
 	var mongoose_error = null;
 	mongoose.connection.on('error',function (err, res) {  
@@ -28,12 +28,12 @@
 	
 	app.use(cors()); // enable cross site resource sharing
 
-	var get_routes = require('./routes/get.js');
-	var post_routes = require('./routes/post.js');
-	var put_routes = require('./routes/put.js');
-	var delete_routes = require('./routes/delete.js');
+	let get_routes = require('./routes/get.js');
+	let post_routes = require('./routes/post.js');
+	let put_routes = require('./routes/put.js');
+	let delete_routes = require('./routes/delete.js');
 	
-	var utility = require('./services/utility.service');
+	//var utility = require('./services/utility.service');
 	
 	app.use(function(req, res, next){
 		if(!mongoose_connection_success) {

@@ -166,11 +166,12 @@
 			return utility.getDefaultRejectedPromise(errMsg);
 		}
 		return new Promise(function(resolve, reject) {
-			User.updateTask(user_id, task, function(err, data) {
+			User.updateTask(user_id, task, function(err, resp) {
 				if(err) {
 					reject(err);
 				} else {
-					resolve(data);
+					let result = {"task": task, "resp": resp};
+					resolve(result);
 				}
 			});
 		});
@@ -219,9 +220,9 @@
 		if(!user_id) {
 			errMsg.push('User ID is not provided');
 		}
-		if(!taskStatus) {
+		/*if(!taskStatus) {
 			let taskStatus = 'new';
-		}
+		}*/
 		if(errMsg.length) {
 			return utility.getDefaultRejectedPromise(errMsg);
 		}
