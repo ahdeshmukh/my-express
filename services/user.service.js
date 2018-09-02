@@ -53,10 +53,10 @@
 	function addUser(user) {
 
 		let errMsg = [];
-		if(!user.first_name) {
+		if(!user.firstName) {
 			errMsg.push('First name is required');
 		}
-		if(!user.last_name) {
+		if(!user.lastName) {
 			errMsg.push('Last name is required');
 		}
 		if(!user.email) {
@@ -64,6 +64,12 @@
 		}
 		if(!user.password) {
 			errMsg.push('Password is required');
+		}
+		if(!user.confirmPassword) {
+			errMsg.push('Confirm Password is required');
+		}
+		if(user.password !== user.confirmPassword) {
+			errMsg.push('Password and Confirm password do not match');
 		}
 		if(errMsg.length) {
 			return utility.getDefaultRejectedPromise(errMsg);
@@ -74,13 +80,17 @@
 		
 		// make the email lower case
 		user.email = user.email.toLowerCase();
+
+		// this is to accomodate field names in MongoDB
+		user.first_name = user.firstName;
+		user.last_name = user.lastName;
 		
 		return new Promise(function(resolve, reject) {
-			User.addUser(user, function(err, new_user) {
+			User.addUser(user, function(err, newUser) {
 				if(err) {
 					reject(err);
 				} else {
-					resolve(new_user);
+					resolve(newUser);
 				}
 			});
 		});
@@ -168,7 +178,7 @@
 		}
 		
 		if((task.status === 'complete') && !(task.currentStatus === 'new' || task.currentStatus === 'in_progress')) {
-			errMsg.push('xxx Invalid status change. You can only change to Complete from New or In Progress');
+			errMsg.push('Invalid status change. You can only change to Complete from New or In Progress');
 		}
 		
 		if(errMsg.length) {

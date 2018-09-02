@@ -1,24 +1,24 @@
 (function(){
-	var express = require('express');
-	var router = express.Router();
-	var utility = require('../services/utility.service');
-	var user_service = require('../services/user.service');
-	var auth_service = require('../services/auth.service');
+	const express = require('express');
+	const router = express.Router();
+	const utility = require('../services/utility.service');
+	const userService = require('../services/user.service');
+	const authService = require('../services/auth.service');
 
 	router.post('/hello', function(req, res, next){
-		var current_date_time = utility.getCurrentDateTime();
+		let current_date_time = utility.getCurrentDateTime();
 		let result = utility.returnResult(req.first_middle_ware + ' POST route on things - Hello from post.js requested on ' + current_date_time, req);
 		res.json(result);
 	});
 
 	router.post('/add-user', function(req, res, next) {
 		let user_data = req.body;
-		user_service.addUser(user_data).then(function(user) {
-			var result = utility.returnResult(user, req);
+		userService.addUser(user_data).then(function(user) {
+			let result = utility.returnResult(user, req);
 			res.json(result);
 		}, function(err) {
-			var error = utility.returnError(err);
-			var result = utility.returnResult(error, req);
+			let error = utility.returnError(err);
+			let result = utility.returnResult(error, req);
 			res.json(result);
 		});
 	});
@@ -26,24 +26,24 @@
 	router.post('/user-add-task', function(req, res, next) {
 		let task = req.body.name;
 		let user_id = req.body.user_id;
-		user_service.addTask(user_id, task).then(function(task_result) {
-			var result = utility.returnResult(task_result, req);
+		userService.addTask(user_id, task).then(function(task_result) {
+			let result = utility.returnResult(task_result, req);
 			res.json(result);
 		}, function(err) {
-			var error = utility.returnError(err);
-			var result = utility.returnResult(error, req);
+			let error = utility.returnError(err);
+			let result = utility.returnResult(error, req);
 			res.json(result);
 		});
 	});
 
 	router.post('/login', function(req, res, next) {
 		let credentials = req.body;
-		auth_service.login(credentials).then(function(auth_result) {
-			var result = utility.returnResult(auth_result, req);
+		authService.login(credentials).then(function(auth_result) {
+			let result = utility.returnResult(auth_result, req);
 			res.json(result);
 		}, function(err) {
-			var error = utility.returnError(err);
-			var result = utility.returnResult(error, req);
+			let error = utility.returnError(err);
+			let result = utility.returnResult(error, req);
 			res.json(result);
 		});
 	});

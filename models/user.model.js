@@ -57,6 +57,7 @@
 
     module.exports.addUser = function(user, callback) {
         try {
+            //throw new Error('Some error');
             User.create(user, callback);
         } catch(err) {
             throw err;
