@@ -6,16 +6,16 @@
 	var utility = require('../services/utility.service');
 	var User = require('../models/user.model');
 	
-	var user_service = {};
-	user_service.getUserById = getUserById;
-	user_service.getUsers = getUsers;
-	user_service.addUser = addUser;
-	user_service.updateUser = updateUser;
-	user_service.addTask = addTask;
-	user_service.updateUserTask = updateUserTask;
-	user_service.getUsersTasksCountByStatus = getUsersTasksCountByStatus;
-	user_service.getUsersTasksList = getUsersTasksList;
-	user_service.getUsersTasksListByStatus = getUsersTasksListByStatus;
+	var userService = {};
+	userService.getUserById = getUserById;
+	userService.getUsers = getUsers;
+	userService.addUser = addUser;
+	userService.updateUser = updateUser;
+	userService.addTask = addTask;
+	userService.updateUserTask = updateUserTask;
+	userService.getUsersTasksCountByStatus = getUsersTasksCountByStatus;
+	userService.getUsersTasksList = getUsersTasksList;
+	userService.getUsersTasksListByStatus = getUsersTasksListByStatus;
 	
 	function getUserById(id) {
 		let errMsg = [];
@@ -120,9 +120,9 @@
 		});
 	}
 
-	function addTask(user_id, task) {
+	function addTask(userId, task) {
 		let errMsg = [];
-		if(!user_id) {
+		if(!userId) {
 			errMsg.push('User ID is not provided');
 		}
 		if(!task) {
@@ -132,7 +132,7 @@
 			return utility.getDefaultRejectedPromise(errMsg);
 		}
 		return new Promise(function(resolve, reject) {
-			User.addTask({"_id": user_id}, task, function(err, data) {
+			User.addTask({"_id": userId}, task, function(err, data) {
 				if(err) {
 					reject(err);
 				} else {
@@ -142,9 +142,9 @@
 		});
 	}
 
-	function updateUserTask(user_id, task) {
+	function updateUserTask(userId, task) {
 		let errMsg = [];
-		if(!user_id) {
+		if(!userId) {
 			errMsg.push('User ID is not provided');
 		}
 		if(!task) {
@@ -162,11 +162,20 @@
 		if((task.status !== 'in_progress') && (task.status !== 'complete')) {
 			errMsg.push('Invalid status. The status of the task can only be "In Progress" or "Complete"');
 		}
+
+		if((task.status === 'in_progress') && (task.currentStatus !== 'new')) {
+			errMsg.push('Invalid status change. You can only change to In Progress from New');
+		}
+		
+		if((task.status === 'complete') && !(task.currentStatus === 'new' || task.currentStatus === 'in_progress')) {
+			errMsg.push('xxx Invalid status change. You can only change to Complete from New or In Progress');
+		}
+		
 		if(errMsg.length) {
 			return utility.getDefaultRejectedPromise(errMsg);
 		}
 		return new Promise(function(resolve, reject) {
-			User.updateTask(user_id, task, function(err, resp) {
+			User.updateTask(userId, task, function(err, resp) {
 				if(err) {
 					reject(err);
 				} else {
@@ -177,16 +186,16 @@
 		});
 	}
 
-	function getUsersTasksCountByStatus(user_id) {
+	function getUsersTasksCountByStatus(userId) {
 		let errMsg = [];
-		if(!user_id) {
+		if(!userId) {
 			errMsg.push('User ID is not provided');
 		}
 		if(errMsg.length) {
 			return utility.getDefaultRejectedPromise(errMsg);
 		}
 		return new Promise(function(resolve, reject) {
-			User.getUsersTasksCountByStatus(user_id, function(err, data) {
+			User.getUsersTasksCountByStatus(userId, function(err, data) {
 				if(err) {
 					reject(err);
 				} else {
@@ -196,16 +205,16 @@
 		});
 	}
 	
-	function getUsersTasksList(user_id) {
+	function getUsersTasksList(userId) {
 		let errMsg = [];
-		if(!user_id) {
+		if(!userId) {
 			errMsg.push('User ID is not provided');
 		}
 		if(errMsg.length) {
 			return utility.getDefaultRejectedPromise(errMsg);
 		}
 		return new Promise(function(resolve, reject) {
-			User.getUsersTasksList(user_id, function(err, data) {
+			User.getUsersTasksList(userId, function(err, data) {
 				if(err) {
 					reject(err);
 				} else {
@@ -215,9 +224,9 @@
 		});
 	}
 	
-	function getUsersTasksListByStatus(user_id, taskStatus) {
+	function getUsersTasksListByStatus(userId, taskStatus) {
 		let errMsg = [];
-		if(!user_id) {
+		if(!userId) {
 			errMsg.push('User ID is not provided');
 		}
 		/*if(!taskStatus) {
@@ -227,7 +236,7 @@
 			return utility.getDefaultRejectedPromise(errMsg);
 		}
 		return new Promise(function(resolve, reject) {
-			User.getUsersTasksListByStatus(user_id, taskStatus, function(err, data) {
+			User.getUsersTasksListByStatus(userId, taskStatus, function(err, data) {
 				if(err) {
 					reject(err);
 				} else {
@@ -241,5 +250,5 @@
 		});
 	}
 	
-	module.exports = user_service;
+	module.exports = userService;
 })();
