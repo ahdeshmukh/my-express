@@ -121,7 +121,7 @@
     }
 	
 	module.exports.getUsersTasksList = function(user_id, callback) {
-		let user_id_obj = mongoose.Types.ObjectId(user_id);
+        let user_id_obj = mongoose.Types.ObjectId(user_id);
         let query = {"_id": user_id_obj, "active": true};
         try {
             User.find(query,{"tasks": 1},callback).limit(1);
@@ -132,17 +132,32 @@
 	
 	module.exports.getUsersTasksListByStatus = function(user_id, taskStatus=null, callback) {
         let user_id_obj = mongoose.Types.ObjectId(user_id);
-        let taskQuery = [{$match: {"_id": user_id_obj, "active": true}}];
+        let taskQuery = [
+            {$match: {"_id": user_id_obj, "active": true}},
+            {$unwind: "$tasks"},
+            {$sort: {"tasks.created_time": -1}}
+        ];
+
         if(taskStatus) {
-            taskQuery.push(
-                {$unwind: "$tasks"}, 
-                {$match: {"tasks.status": taskStatus}}, 
-                {$group: {"_id": "$_id", "tasks":{$push:{"name":"$tasks.name", "created_time":"$tasks.created_time", "status":"$tasks.status"}}}},
-                {$project:{"tasks": 1, "_id": 0}}
-            )
-        } else {
-            taskQuery.push({$project:{"tasks": 1, "_id": 0}});
+            taskQuery = [...taskQuery, {$match: {"tasks.status": taskStatus}}];
         }
+
+        taskQuery = [...taskQuery, 
+            {
+                $group: {
+                    "_id": "$_id", 
+                    "tasks":{ 
+                        $push: {
+                            "name":"$tasks.name", 
+                            "created_time":"$tasks.created_time", 
+                            "status":"$tasks.status"
+                        }
+                    }
+                }
+            }
+        ];
+        taskQuery = [...taskQuery, {$project:{"tasks": 1, "_id": 0}}];
+
         try {
             User.aggregate(taskQuery, callback);
         } catch(err) {
